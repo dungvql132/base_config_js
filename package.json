@@ -1,0 +1,30 @@
+{
+  "name": "b",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "node index.js",
+    "check": "npx eslint src --ext .js",
+    "check_fix": "npx eslint src --ext .js --fix",
+    "prettierrc": "npx prettier --write \"src/**/*.js\""
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "module-alias": "^2.2.2",
+    "pg": "^8.11.0",
+    "yarn": "^1.22.19"
+  },
+  "_moduleAliases": {
+    "@src": "src"
+  },
+  "devDependencies": {
+    "eslint": "^8.41.0",
+    "eslint-config-google": "^0.14.0",
+    "prettier": "^2.8.8"
+  }
+}
