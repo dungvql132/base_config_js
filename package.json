@@ -5,14 +5,16 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "node index.js",
-    "check": "npx eslint src --ext .js",
-    "check_fix": "npx eslint src --ext .js --fix",
+    "dev": "nodemon index.js",
+    "lint": "npx eslint src --ext .js",
+    "lint:fix": "npx eslint src --ext .js --fix",
     "prettierrc": "npx prettier --write \"src/**/*.js\""
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "module-alias": "^2.2.2",
@@ -25,6 +27,7 @@
   "devDependencies": {
     "eslint": "^8.41.0",
     "eslint-config-google": "^0.14.0",
+    "nodemon": "^2.0.22",
     "prettier": "^2.8.8"
   }
 }

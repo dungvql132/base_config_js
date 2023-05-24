@@ -3,11 +3,11 @@ require('dotenv').config();
 
 // Cấu hình kết nối đến cơ sở dữ liệu PostgreSQL
 const pool = new Pool({
-    user: "dung", // Tên người dùng của PostgreSQL
-    host: "localhost", // Địa chỉ máy chủ PostgreSQL
-    database: "fpt", // Tên cơ sở dữ liệu
-    password: "1", // Mật khẩu của PostgreSQL
-    port: 5432 // Cổng mặc định của PostgreSQL
+    user: process.env.PG_USER, // Tên người dùng của PostgreSQL
+    host: process.env.PG_HOST, // Địa chỉ máy chủ PostgreSQL
+    database: process.env.PG_DATABASE, // Tên cơ sở dữ liệu
+    password: process.env.PG_PASSWORD, // Mật khẩu của PostgreSQL
+    port: process.env.PG_PORT // Cổng mặc định của PostgreSQL
 });
 
 function getQueryPromise(query) {

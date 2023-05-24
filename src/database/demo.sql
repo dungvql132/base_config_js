@@ -1,69 +1,54 @@
--- tạo bảng users
-CREATE TABLE users (
-  id SERIAL PRIMARY KEY,
-  name VARCHAR(255) NOT NULL,
+-- tạo bảng employees
+CREATE TABLE employees (
+  employeeNumber SERIAL PRIMARY KEY,
+  lastName VARCHAR(255) NOT NULL,
+  firstName VARCHAR(255) NOT NULL,
+  extension VARCHAR(255) NOT NULL,
   email VARCHAR(255) NOT NULL,
-  password VARCHAR(255) NOT NULL
+  reportTo INT,
+  jobTitle VARCHAR(255) NOT NULL,
+  FOREIGN KEY (reportTo) REFERENCES employees(employeeNumber) ON DELETE CASCADE
 );
 
--- tạo bảng group
-CREATE TABLE groups (
-  id SERIAL PRIMARY KEY,
-  name VARCHAR(255) NOT NULL
+-- tạo bảng customers
+CREATE TABLE customers (
+  customerNumber SERIAL PRIMARY KEY,
+  customerName VARCHAR(255) NOT NULL,
+  contactFirstName VARCHAR(255) NOT NULL,
+  contactLastName VARCHAR(255) NOT NULL,
+  phone VARCHAR(255) NOT NULL,
+  addressLine1 VARCHAR(255) NOT NULL,
+  addressLine2 VARCHAR(255) NOT NULL,
+  city VARCHAR(255) NOT NULL,
+  state VARCHAR(255) NOT NULL,
+  postalCode VARCHAR(255) NOT NULL,
+  country VARCHAR(255) NOT NULL,
+  salesRepEmployeeNumber INT,
+  creditLimit VARCHAR(255) NOT NULL,
+  FOREIGN KEY (salesRepEmployeeNumber) REFERENCES employees(employeeNumber) ON DELETE CASCADE
 );
 
--- tạo bảng chung gian quan hệ n - n
-CREATE TABLE user_group (
-  user_id INT NOT NULL,
-  group_id INT NOT NULL,
-  PRIMARY KEY (user_id, group_id),
-  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
-  FOREIGN KEY (group_id) REFERENCES groups(id) ON DELETE CASCADE
-);
+INSERT INTO employees (lastName, firstName, extension, email, reportTo, jobTitle) VALUES
+  ('Doe', 'John', 'x123', 'john.doe@example.com', NULL, 'CEO'),
+  ('Smith', 'Jane', 'x456', 'jane.smith@example.com', 1, 'CFO'),
+  ('Johnson', 'Robert', 'x789', 'robert.johnson@example.com', 1, 'CTO'),
+  ('Williams', 'Michael', 'x234', 'michael.williams@example.com', 2, 'HR Manager'),
+  ('Brown', 'Jennifer', 'x567', 'jennifer.brown@example.com', 2, 'Marketing Manager'),
+  ('Jones', 'David', 'x890', 'david.jones@example.com', 3, 'Software Engineer'),
+  ('Taylor', 'Sarah', 'x345', 'sarah.taylor@example.com', 4, 'HR Assistant'),
+  ('Davis', 'Christopher', 'x678', 'christopher.davis@example.com', 4, 'Marketing Assistant'),
+  ('Miller', 'Jessica', 'x901', 'jessica.miller@example.com', 3, 'Junior Software Engineer'),
+  ('Wilson', 'Matthew', 'x123', 'matthew.wilson@example.com', 2, 'Senior Manager');
 
--- Chèn dữ liệu vào bảng users
-INSERT INTO users (name, email, password) VALUES
-  ('John Doe', 'john@example.com', 'password1'),
-  ('Jane Smith', 'jane@example.com', 'password2'),
-  ('David Johnson', 'david@example.com', 'password3'),
-  ('Emily Williams', 'emily@example.com', 'password4');
-
--- Chèn dữ liệu vào bảng groups
-INSERT INTO groups (name) VALUES
-  ('Sales'),
-  ('Marketing'),
-  ('Engineering'),
-  ('Finance');
-
-CREATE TABLE books (
-  id SERIAL PRIMARY KEY,
-  title VARCHAR(255) NOT NULL,
-  name VARCHAR(255) NOT NULL,
-  author_id INT,
-  FOREIGN KEY (author_id) REFERENCES users(id)
-);
-
--- Chèn dữ liệu vào bảng user_group
-INSERT INTO user_group (user_id, group_id) VALUES
-  (1, 1),
-  (2, 1),
-  (2, 2),
-  (3, 2),
-  (3, 3),
-  (4, 3),
-  (1, 4),
-  (2, 4),
-  (3, 4),
-  (4, 4);
-
-INSERT INTO books (name, title, author_id) VALUES
-  ('Sách Kinh Doanh', 'Kỹ năng làm việc trong môi trường kinh doanh', 1),
-  ('Sách Khoa Học', 'Nguyên lý Vũ trụ', 2),
-  ('Sách Văn Học', 'Cô Gái Đến Từ Hôm Qua', 3),
-  ('Sách Lịch Sử', 'Cuộc Đời Và Sự Nghiệp Bác Hồ', 4),
-  ('Sách Kỹ Năng Sống', '7 Thói Quen Hiệu Quả', 1),
-  ('Sách Khoa Học', 'Nhân Loại Học', 2),
-  ('Sách Văn Học', 'Truyện Kiều', 3),
-  ('Sách Lịch Sử', 'Lược Sử Thế Giới', 4),
-  ('Sách Kinh Doanh', 'Triết Lý Kinh Doanh', 1),
-  ('Sách Kỹ Năng Sống', 'Đắc Nhân Tâm', 2);
+INSERT INTO customers (customerName, contactFirstName, contactLastName, phone, addressLine1, addressLine2, city, state, postalCode, country, salesRepEmployeeNumber, creditLimit)
+VALUES
+  ('Customer 1', 'John', 'Doe', '123456789', 'Address 1', 'Address 2', 'City 1', 'State 1', '12345', 'Country 1', 1, '1000'),
+  ('Customer 2', 'Jane', 'Smith', '987654321', 'Address 3', 'Address 4', 'City 2', 'State 2', '67890', 'Country 2', 2, '2000'),
+  ('Customer 3', 'David', 'Johnson', '555555555', 'Address 5', 'Address 6', 'City 3', 'State 3', '24680', 'Country 3', 3, '1500'),
+  ('Customer 4', 'Sarah', 'Williams', '111111111', 'Address 7', 'Address 8', 'City 4', 'State 4', '13579', 'Country 4', 4, '1800'),
+  ('Customer 5', 'Michael', 'Brown', '999999999', 'Address 9', 'Address 10', 'City 5', 'State 5', '97531', 'Country 5', 5, '2500'),
+  ('Customer 6', 'Emily', 'Taylor', '444444444', 'Address 11', 'Address 12', 'City 6', 'State 6', '86420', 'Country 6', 6, '1200'),
+  ('Customer 7', 'Daniel', 'Anderson', '777777777', 'Address 13', 'Address 14', 'City 7', 'State 7', '75319', 'Country 7', 7, '900'),
+  ('Customer 8', 'Olivia', 'Miller', '222222222', 'Address 15', 'Address 16', 'City 8', 'State 8', '64280', 'Country 8', 8, '3000'),
+  ('Customer 9', 'James', 'Wilson', '888888888', 'Address 17', 'Address 18', 'City 9', 'State 9', '53197', 'Country 9', 9, '1700'),
+  ('Customer 10', 'Sophia', 'Davis', '333333333', 'Address 19', 'Address 20', 'City 10', 'State 10', '42086', 'Country 10', 10, '2200');

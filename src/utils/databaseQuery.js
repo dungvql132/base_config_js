@@ -69,6 +69,7 @@ class RepositoryPostSQL {
             const whereCondition = changeTo_whereCondition(option.where);
             query += ` where ${whereCondition}`;
         }
+        console.log('query: ',query);
 
         let data = await getQueryPromise(query)
         return data;
@@ -156,6 +157,9 @@ class RepositoryPostSQL {
     }
 }
 
+module.exports = {
+    RepositoryPostSQL
+}
 // const repository = new RepositoryPostSQL("users");
 // repository.delete({ where: [["id", "=", 5]] }).then(data => {
 //     console.log(data);

@@ -5,7 +5,8 @@ function fromObjToStringValues(object, keys) {
 
     let rs = []
     keys.forEach(key => {
-        rs.push(`'${object[key]}'`)
+        if(`${object[key]}`.toLocaleLowerCase() != 'null')    rs.push(`'${object[key]}'`)
+        else rs.push(`${object[key]}`)
     });
     return rs.join(', ')
 }

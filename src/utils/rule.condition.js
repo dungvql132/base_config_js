@@ -7,7 +7,8 @@ function commandTo_whereCondition(command_1, command_2, condition) {
 }
 
 function arrayTo_where_condition([field, condition, value]) {
-    return `${field} ${condition} '${value}'`;
+    if(`${value}`.toLocaleLowerCase() != 'null')    return `${field} ${condition} '${value}'`;
+    return `${field} ${condition} ${value}`;
 }
 
 function changeTo_whereCondition(arr) {
@@ -24,17 +25,17 @@ function changeTo_whereCondition(arr) {
             const command_1 = commands.pop();
             const command_2 = commands.pop();
             const sign = signs.pop();
-            rs.push(towhereCondition(command_1, command_2, sign));
+            rs.push(commandTo_whereCondition(command_1, command_2, sign));
         } else if (commands.length >= 1 && signs.length >= 1) {
             const command_1 = commands.pop();
             const command_2 = rs.pop();
             const sign = signs.pop();
-            rs.push(towhereCondition(command_1, command_2, sign));
+            rs.push(commandTo_whereCondition(command_1, command_2, sign));
         } else if (rs.length >= 2 && signs.length >= 1) {
             const command_1 = rs.pop();
             const command_2 = rs.pop();
             const sign = signs.pop();
-            rs.push(towhereCondition(command_1, command_2, sign));
+            rs.push(commandTo_whereCondition(command_1, command_2, sign));
         }
     }
     if (rs.length == 0 && commands.length == 1) {
