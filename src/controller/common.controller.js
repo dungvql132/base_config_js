@@ -1,25 +1,19 @@
-const { RepositoryPostSQL } = require('@src/utils/databaseQuery')
+const { Repository } = require('@src/entity/Repository')
 
-async function find_controller(req, res, next, tableName) {
+async function find_controller(req, res, next, tableEntity) {
     try {
-        const resultRepository = new RepositoryPostSQL(tableName)
+        const resultRepository = new Repository(tableEntity)
         let result
-        if (req.params.id) {
-            result = await resultRepository.find({
-                where: [['id', '=', req.params.id]]
-            })
-        } else {
-            result = await resultRepository.find()
-        }
-        res.status(200).json(result)
+        result = await resultRepository.find()
+        res.status(200).json(result.rawDatas)
     } catch (error) {
         next(error)
     }
 }
 
-async function add_controller(req, res, next, tableName) {
+async function add_controller(req, res, next, tableEntity) {
     try {
-        const resultRepository = new RepositoryPostSQL(tableName)
+        const resultRepository = new Repository(tableEntity)
         let result
         let datas = req.body.datas
         if (datas) {
@@ -31,9 +25,9 @@ async function add_controller(req, res, next, tableName) {
     }
 }
 
-async function update_controller(req, res, next, tableName) {
+async function update_controller(req, res, next, tableEntity) {
     try {
-        const resultRepository = new RepositoryPostSQL(tableName)
+        const resultRepository = new Repository(tableEntity)
         let result
         let datas = req.body.datas
         if (datas) {
@@ -48,9 +42,9 @@ async function update_controller(req, res, next, tableName) {
     }
 }
 
-async function delete_controller(req, res, next, tableName) {
+async function delete_controller(req, res, next, tableEntity) {
     try {
-        const resultRepository = new RepositoryPostSQL(tableName)
+        const resultRepository = new Repository(tableEntity)
         let result
         let datas = req.body.datas
         if (datas) {

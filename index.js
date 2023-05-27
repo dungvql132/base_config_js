@@ -1,5 +1,5 @@
 require('module-alias/register');
-
+const { client } = require('@src/database/connect')
 require('dotenv').config(); // Import dotenv module to load .env file
 
 const express = require('express');
@@ -22,5 +22,13 @@ app.use(appRouter.app)
 
 
 app.listen(port, () => {
+  client.connect()
+    .then(() => {
+      console.log('Connected to PostgreSQL database');
+      // Thực hiện các truy vấn tại đây
+    })
+    .catch((err) => {
+      console.error('Error connecting to PostgreSQL database:', err);
+    });
   console.log(`Server is running on port ${port}`);
 });

@@ -1,3 +1,27 @@
+DO $$
+DECLARE
+    tableName text;
+BEGIN
+    FOR tableName IN (SELECT table_name FROM information_schema.tables WHERE table_schema = 'public') LOOP
+        EXECUTE 'TRUNCATE TABLE "' || tableName || '" CASCADE;';
+    END LOOP;
+END $$;
+
+DROP TABLE IF EXISTS groups_users;
+DROP TABLE IF EXISTS groups_rules;
+DROP TABLE IF EXISTS rules;
+DROP TABLE IF EXISTS groups;
+DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS customers;
+DROP TABLE IF EXISTS employees;
+DROP TABLE IF EXISTS offices;
+
+-- tạo bảng office
+CREATE TABLE offices (
+  officeCode VARCHAR(255) PRIMARY KEY,
+  name VARCHAR(255) NOT NULL
+);
+
 -- tạo bảng employees
 CREATE TABLE employees (
   employeeNumber SERIAL PRIMARY KEY,
@@ -5,9 +29,11 @@ CREATE TABLE employees (
   firstName VARCHAR(255) NOT NULL,
   extension VARCHAR(255) NOT NULL,
   email VARCHAR(255) NOT NULL,
+  officeCode VARCHAR(255),
   reportTo INT,
   jobTitle VARCHAR(255) NOT NULL,
-  FOREIGN KEY (reportTo) REFERENCES employees(employeeNumber) ON DELETE CASCADE
+  FOREIGN KEY (reportTo) REFERENCES employees(employeeNumber) ON DELETE CASCADE,
+  FOREIGN KEY (officeCode) REFERENCES offices(officeCode) ON DELETE CASCADE
 );
 
 -- tạo bảng customers
@@ -27,6 +53,41 @@ CREATE TABLE customers (
   creditLimit VARCHAR(255) NOT NULL,
   FOREIGN KEY (salesRepEmployeeNumber) REFERENCES employees(employeeNumber) ON DELETE CASCADE
 );
+
+CREATE TABLE users(
+  userName VARCHAR(255) PRIMARY KEY,
+  password VARCHAR(255),
+  employeeNumber INT,
+  FOREIGN KEY (employeeNumber) REFERENCES employees(employeeNumber) ON DELETE CASCADE
+);
+
+CREATE TABLE groups (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE rules (
+  id SERIAL PRIMARY KEY,
+  rule VARCHAR(255) NOT NULL,
+  type VARCHAR(255) NOT NULL,
+  tableName VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE groups_rules (
+  group_id INT REFERENCES groups(id) ON DELETE CASCADE,
+  rule_id INT REFERENCES rules(id) ON DELETE CASCADE,
+  PRIMARY KEY (group_id, rule_id)
+);
+
+CREATE TABLE groups_users (
+  userName_key VARCHAR(255),
+  group_id INT,
+  PRIMARY KEY (group_id, userName_key),
+  FOREIGN KEY (group_id) REFERENCES groups(id) ON DELETE CASCADE,
+  FOREIGN KEY (userName_key) REFERENCES users(userName) ON DELETE CASCADE
+);
+
+-- demo data -----------------------
 
 INSERT INTO employees (lastName, firstName, extension, email, reportTo, jobTitle) VALUES
   ('Doe', 'John', 'x123', 'john.doe@example.com', NULL, 'CEO'),
@@ -52,3 +113,44 @@ VALUES
   ('Customer 8', 'Olivia', 'Miller', '222222222', 'Address 15', 'Address 16', 'City 8', 'State 8', '64280', 'Country 8', 8, '3000'),
   ('Customer 9', 'James', 'Wilson', '888888888', 'Address 17', 'Address 18', 'City 9', 'State 9', '53197', 'Country 9', 9, '1700'),
   ('Customer 10', 'Sophia', 'Davis', '333333333', 'Address 19', 'Address 20', 'City 10', 'State 10', '42086', 'Country 10', 10, '2200');
+
+INSERT INTO users (userName, password, employeeNumber)
+VALUES
+  ('user1', '$2b$10$mBXn6sufJBwdqSyXZEA4w.oANXH1L6v2rTHq.Fgm.c0OKksgT9xXi', 1),
+  ('user2', '$2b$10$mBXn6sufJBwdqSyXZEA4w.oANXH1L6v2rTHq.Fgm.c0OKksgT9xXi', 2),
+  ('user3', '$2b$10$mBXn6sufJBwdqSyXZEA4w.oANXH1L6v2rTHq.Fgm.c0OKksgT9xXi', 3),
+  ('user4', '$2b$10$mBXn6sufJBwdqSyXZEA4w.oANXH1L6v2rTHq.Fgm.c0OKksgT9xXi', 4),
+  ('user5', '$2b$10$mBXn6sufJBwdqSyXZEA4w.oANXH1L6v2rTHq.Fgm.c0OKksgT9xXi', 5),
+  ('user6', '$2b$10$mBXn6sufJBwdqSyXZEA4w.oANXH1L6v2rTHq.Fgm.c0OKksgT9xXi', 6),
+  ('user7', '$2b$10$mBXn6sufJBwdqSyXZEA4w.oANXH1L6v2rTHq.Fgm.c0OKksgT9xXi', 7),
+  ('user8', '$2b$10$mBXn6sufJBwdqSyXZEA4w.oANXH1L6v2rTHq.Fgm.c0OKksgT9xXi', 1),
+  ('user9', '$2b$10$mBXn6sufJBwdqSyXZEA4w.oANXH1L6v2rTHq.Fgm.c0OKksgT9xXi', 2),
+  ('user10', '$2b$10$mBXn6sufJBwdqSyXZEA4w.oANXH1L6v2rTHq.Fgm.c0OKksgT9xXi', 3);
+
+INSERT INTO groups (id, name) VALUES
+  (1, 'President'),
+  (2, 'Manager'),
+  (3, 'Leader'),
+  (4, 'Staff');
+
+INSERT INTO groups_users (userName_key, group_id) VALUES
+('user1', 1),
+('user6', 2),
+('user7', 3),
+('user8', 4),
+('user3', 2),
+('user4', 2),
+('user5', 3),
+('user2', 4),
+('user3', 4),
+('user4', 3);
+
+
+INSERT INTO rules (rule, type, tableName) VALUES
+('rule 1', 'read', 'employees'),
+('rule 2', 'read', 'employees'),
+('rule 3', 'read', 'employees');
+
+INSERT INTO groups_rules (group_id, rule_id) VALUES
+(4, 1),
+(3, 2);

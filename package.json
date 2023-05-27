@@ -8,15 +8,19 @@
     "dev": "nodemon index.js",
     "lint": "npx eslint src --ext .js",
     "lint:fix": "npx eslint src --ext .js --fix",
-    "prettierrc": "npx prettier --write \"src/**/*.js\""
+    "prettierrc": "npx prettier --write \"src/**/*.js\"",
+    "migrate": "node src/database/migrate.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.1.0",
     "body-parser": "^1.20.2",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
+    "flatted": "^3.2.7",
+    "jsonwebtoken": "^9.0.0",
     "module-alias": "^2.2.2",
     "pg": "^8.11.0",
     "yarn": "^1.22.19"
