@@ -8,7 +8,7 @@ const express = require('express');
 const app = express();
 // Define your routes and middleware here
 
-app.use('/api',checkRule_middlewere)
+app.use('/api',checkToken_middlewere,checkRule_middlewere)
 
 app.use('/api', employeeRouter.app);
 app.use('/api', customerRouter.app);

@@ -23,6 +23,16 @@ class GroupEntity extends BaseEntity{
         colConnectTableFrom : 'id',
         colConnectTableTo : 'username',
     };
+    rule_ids = {
+        value: null,
+        type: type.many2many,
+        tableNameTo : 'rules',
+        commonTableName : 'groups_rules',
+        colTableFrom : 'group_id',
+        colTableTo : 'rule_id',
+        colConnectTableFrom : 'id',
+        colConnectTableTo : 'id',
+    };
 }
 
 module.exports = {

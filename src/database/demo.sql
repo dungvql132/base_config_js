@@ -89,17 +89,21 @@ CREATE TABLE groups_users (
 
 -- demo data -----------------------
 
-INSERT INTO employees (lastName, firstName, extension, email, reportTo, jobTitle) VALUES
-  ('Doe', 'John', 'x123', 'john.doe@example.com', NULL, 'CEO'),
-  ('Smith', 'Jane', 'x456', 'jane.smith@example.com', 1, 'CFO'),
-  ('Johnson', 'Robert', 'x789', 'robert.johnson@example.com', 1, 'CTO'),
-  ('Williams', 'Michael', 'x234', 'michael.williams@example.com', 2, 'HR Manager'),
-  ('Brown', 'Jennifer', 'x567', 'jennifer.brown@example.com', 2, 'Marketing Manager'),
-  ('Jones', 'David', 'x890', 'david.jones@example.com', 3, 'Software Engineer'),
-  ('Taylor', 'Sarah', 'x345', 'sarah.taylor@example.com', 4, 'HR Assistant'),
-  ('Davis', 'Christopher', 'x678', 'christopher.davis@example.com', 4, 'Marketing Assistant'),
-  ('Miller', 'Jessica', 'x901', 'jessica.miller@example.com', 3, 'Junior Software Engineer'),
-  ('Wilson', 'Matthew', 'x123', 'matthew.wilson@example.com', 2, 'Senior Manager');
+INSERT INTO offices (officeCode, name)
+VALUES ('OF001', 'Office 1'),
+       ('OF002', 'Office 2');
+
+INSERT INTO employees (lastName, firstName, extension, email, officeCode, reportTo, jobTitle)
+VALUES ('Doe', 'John', 'x123', 'john.doe@example.com', 'OF001', NULL, 'Manager'),
+('Smith', 'Alice', 'x456', 'alice.smith@example.com', 'OF001', 1, 'Assistant Manager'),
+('Johnson', 'David', 'x789', 'david.johnson@example.com', 'OF001', 1, 'Supervisor'),
+('Williams', 'Emily', 'x234', 'emily.williams@example.com', 'OF001', 2, 'Associate'),
+('Brown', 'Michael', 'x567', 'michael.brown@example.com', 'OF001', 2, 'Associate'),
+('Jones', 'Sarah', 'x890', 'sarah.jones@example.com', 'OF002', NULL, 'Manager'),
+('Taylor', 'Robert', 'x123', 'robert.taylor@example.com', 'OF002', 6, 'Assistant Manager'),
+('Anderson', 'Jennifer', 'x456', 'jennifer.anderson@example.com', 'OF002', 6, 'Supervisor'),
+('Thomas', 'Christopher', 'x789', 'christopher.thomas@example.com', 'OF002', 7, 'Associate'),
+('Wilson', 'Jessica', 'x234', 'jessica.wilson@example.com', 'OF002', 7, 'Associate');
 
 INSERT INTO customers (customerName, contactFirstName, contactLastName, phone, addressLine1, addressLine2, city, state, postalCode, country, salesRepEmployeeNumber, creditLimit)
 VALUES
@@ -135,22 +139,75 @@ INSERT INTO groups (id, name) VALUES
 
 INSERT INTO groups_users (userName_key, group_id) VALUES
 ('user1', 1),
-('user6', 2),
-('user7', 3),
-('user8', 4),
-('user3', 2),
-('user4', 2),
+('user2', 2),
+('user3', 3),
+('user4', 4),
+('user5', 2),
 ('user5', 3),
-('user2', 4),
-('user3', 4),
-('user4', 3);
+('user6', 2),
+('user6', 4),
+('user7', 4),
+('user8', 3);
 
 
-INSERT INTO rules (rule, type, tableName) VALUES
-('rule 1', 'read', 'employees'),
-('rule 2', 'read', 'employees'),
-('rule 3', 'read', 'employees');
+INSERT INTO rules (id,rule, type, tableName) VALUES
+(1,'[[1,"=",1]]', 'read', 'employees'),
+(2,'[[0,"=",1]]', 'read', 'employees'),
+(3,'[[1,"=",1]]', 'create', 'employees'),
+(4,'[[0,"=",1]]', 'create', 'employees'),
+(5,'[[1,"=",1]]', 'update', 'employees'),
+(6,'[[0,"=",1]]', 'update', 'employees'),
+(7,'[[1,"=",1]]', 'delete', 'employees'),
+(8,'[[0,"=",1]]', 'delete', 'employees'),
+(9 ,'[[1,"=",1]]', 'read', 'customers'),
+(10 ,'[["salesrepemployeenumber.officecode", "=", "$user.employeenumber.officecode"]]', 'read', 'customers'),
+(11 ,'[[1,"=",1]]', 'create', 'customers'),
+(12 ,'[["salesrepemployeenumber.officecode", "=", "$user.employeenumber.officecode"]]', 'create', 'customers'),
+(13 ,'[[1,"=",1]]', 'update', 'customers'),
+(14 ,'[["salesrepemployeenumber.officecode", "=", "$user.employeenumber.officecode"]]', 'update', 'customers'),
+(15 ,'[[0,"=",1]]', 'update', 'customers'),
+(16 ,'[[1,"=",1]]', 'delete', 'customers'),
+(17 ,'[[0,"=",1]]', 'delete', 'customers'),
+(18 ,'[["salesrepemployeenumber", "=", "$user.employeenumber"]]', 'delete', 'customers'),
+(19 ,'[["salesrepemployeenumber", "=", "$user.employeenumber"]]', 'read', 'customers');
 
 INSERT INTO groups_rules (group_id, rule_id) VALUES
-(4, 1),
-(3, 2);
+(1, 1),
+(1, 3),
+(1, 5),
+(1, 7),
+
+(2, 1),
+(2, 3),
+(2, 5),
+(2, 8),
+
+(3, 1),
+(3, 4),
+(3, 6),
+(3, 8),
+
+(4, 2),
+(4, 4),
+(4, 6),
+(4, 8),
+
+(1, 9),
+(1, 11),
+(1, 13),
+(1, 16),
+
+(2, 9),
+(2, 11),
+(2, 13),
+(2, 16),
+
+(3, 10),
+(3, 12),
+(3, 14),
+(3, 18),
+
+(4, 19),
+(4, 12),
+(4, 15),
+(4, 17);

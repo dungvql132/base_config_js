@@ -18,7 +18,7 @@ async function userRegister_controller(req, res, next) {
             throw new Error("cannot create user")
         }
 
-        const token = jwt.sign({ userName: datas.userName }, process.env.JWT_SECRET_KEY);
+        const token = jwt.sign({ username: datas.username }, process.env.JWT_SECRET_KEY);
         res.status(200).json({ token });
     } catch (error) {
         next(error)
@@ -30,7 +30,7 @@ async function userLogin_controller(req, res, next) {
         const datas = req.body.datas;
 
         const userRepository = new Repository(UserEntity)
-        const result = await userRepository.find({ where: [['userName', '=', datas.userName]] })
+        const result = await userRepository.find({ where: [['username', '=', datas.username]] })
         if(result.length == 0){
             throw new Error("cannot find user") 
         }
@@ -44,7 +44,7 @@ async function userLogin_controller(req, res, next) {
         }
         
         // Tạo JSON Web Token (JWT)
-        const token = jwt.sign({ userName: datas.userName }, process.env.JWT_SECRET_KEY);
+        const token = jwt.sign({ username: datas.username }, process.env.JWT_SECRET_KEY);
 
         // Trả về kết quả và token
         res.json({ success: true, token });

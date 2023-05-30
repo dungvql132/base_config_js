@@ -1,8 +1,14 @@
 const { Repository } = require('@src/entity/Repository')
+const { UserEntity } = require('@src/entity')
+const { RepositoryWithRule } = require('@src/entity/RepositoryWithRule')
 
 async function find_controller(req, res, next, tableEntity) {
     try {
-        const resultRepository = new Repository(tableEntity)
+        const userRepository = new Repository(UserEntity)
+        const user = await userRepository.find({ where: [['username', '=', req.body.user.username]]})
+        const resultRepository = new RepositoryWithRule(tableEntity,user.datas[0])
+        console.log("resultRepository: ",resultRepository);
+        await resultRepository.setRules()
         let result
         result = await resultRepository.find()
         res.status(200).json(result.rawDatas)

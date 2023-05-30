@@ -1,19 +1,33 @@
 const { Repository } = require('@src/entity/Repository')
-const { BaseEntity } = require('../entity/Base.entity')
-const { EmployeeEntity } = require('@src/entity/Employee.entity')
-const { UserEntity } = require('@src/entity/User.entity')
+const { RepositoryWithRule } = require('@src/entity/RepositoryWithRule')
+const { findEntity, EmployeeEntity, UserEntity,CustomerEntity } = require('@src/entity')
+const { standardizedRule } = require('@src/utils/callDB/standardizedRule')
 
 async function checkRule_middlewere(req, res, next) {
     try {
         // console.log("check rule -------------------");
-        // const repository = new Repository(EmployeeEntity)
+        // console.log(req.body.user);
+        // let rules = await standardizedRule(req.body.user, 
+        //     [["salesrepemployeenumber.officecode", "=", "$user.employeenumber.officecode"]],
+        //     CustomerEntity.getTableName)
+        // console.log('rules: ',rules);
+        // const repository = new Repository(UserEntity)
         // let data = await repository.find({
-        //     where:[['employeeNumber','=','3']]
+        //     where:rules
         // })
-        // await data.datas[0].user_ids.get(UserEntity);
-        // await data.datas[0].reportTo.get(EmployeeEntity);
+        // console.log(data.rawDatas);
+        // const data = await repository.find({
+        //     where: [['username', '=', req.body.user.username]]
+        // })
+        // const user = data.datas[0]
 
-        // console.log(data.datas[0]);
+        // const empRepository = new RepositoryWithRule(EmployeeEntity,user)
+        // await empRepository.setRules()
+
+        // const data1 = await empRepository.find()
+        // console.log('data1.rawDatas : ',data1.rawDatas);
+        
+
         next()
     } catch (error) {
         next(error)

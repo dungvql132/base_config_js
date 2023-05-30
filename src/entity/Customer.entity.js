@@ -4,20 +4,20 @@ const { BaseEntity } = require('./Base.entity')
 class CustomerEntity extends BaseEntity {
     static getTableName = 'customers';
     tableName = 'customers';
-    customerNumber = {
+    customernumber = {
         value: null,
         type: type.primitive,
         isPrimany: true
     };
-    customerName = {
+    customername = {
         value: null,
         type: type.primitive
     };
-    contactFirstName = {
+    contactfirstname = {
         value: null,
         type: type.primitive
     };
-    contactLastName = {
+    contactlastname = {
         value: null,
         type: type.primitive
     };
@@ -25,11 +25,11 @@ class CustomerEntity extends BaseEntity {
         value: null,
         type: type.primitive
     };
-    addressLine1 = {
+    addressline1 = {
         value: null,
         type: type.primitive
     };
-    addressLine2 = {
+    addressline2 = {
         value: null,
         type: type.primitive
     };
@@ -41,7 +41,7 @@ class CustomerEntity extends BaseEntity {
         value: null,
         type: type.primitive
     };
-    postalCode = {
+    postalcode = {
         value: null,
         type: type.primitive
     };
@@ -49,14 +49,14 @@ class CustomerEntity extends BaseEntity {
         value: null,
         type: type.primitive
     };
-    salesRepEmployeeNumber = {
+    salesrepemployeenumber = {
         value: null,
         type: type.many2one,
         tableNameTo: 'employees',
-        colTableFrom: 'salesRepEmployeeNumber',
-        colTableTo: 'employeeNumber',
+        colTableFrom: 'salesrepemployeenumber',
+        colTableTo: 'employeenumber',
     };
-    creditLimit = {
+    creditlimit = {
         value: null,
         type: type.primitive
     };
