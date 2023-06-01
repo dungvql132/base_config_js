@@ -38,7 +38,11 @@ function fromObjToStringKeysValues(object, keys) {
 
     let rs = []
     keys.forEach(key => {
-        rs.push(`${key} = '${object[key]}'`)
+        if (`${object[key]}`.toLocaleLowerCase() == 'null') {
+            return rs.push(`${key} = ${object[key]}`)
+        }else{
+            rs.push(`${key} = '${object[key]}'`)
+        }
     });
     return rs.join(', ')
 }

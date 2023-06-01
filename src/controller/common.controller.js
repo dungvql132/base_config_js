@@ -7,7 +7,7 @@ async function find_controller(req, res, next, tableEntity) {
         const userRepository = new Repository(UserEntity)
         const user = await userRepository.find({ where: [['username', '=', req.body.user.username]]})
         const resultRepository = new RepositoryWithRule(tableEntity,user.datas[0])
-        console.log("resultRepository: ",resultRepository);
+
         await resultRepository.setRules()
         let result
         result = await resultRepository.find()
