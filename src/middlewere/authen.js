@@ -1,30 +1,33 @@
-require('dotenv').config();
-const jwt = require('jsonwebtoken');
+require("dotenv").config();
+const jwt = require("jsonwebtoken");
 
-async function checkToken_middlewere(req, res, next) {
+async function checkTokenMiddleware(req, res, next) {
     try {
-        // Lấy token từ header
+        // Get the token from the header
         const token = req.headers.authorization;
-    
+        console.log("req.headers: ", req.headers);
+
         if (!token) {
-          // Token không tồn tại
-          return res.status(401).json({ success: false, message: 'Token not found' });
+            // Token does not exist
+            return res
+                .status(401)
+                .json({ success: false, message: "Token not found" });
         }
-    
-        // Xác thực và giải mã token
+
+        // Verify and decode the token
         const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
-    
-        // Lưu thông tin người dùng vào req.body.user
+
+        // Save user information in req.body.user
         req.body.user = decoded;
-    
-        // Chuyển sang middleware hoặc route tiếp theo
+
+        // Proceed to the next middleware or route
         next();
-      } catch (error) {
+    } catch (error) {
         console.error(error);
-        res.status(401).json({ success: false, message: 'Invalid token' });
-      }
+        res.status(401).json({ success: false, message: "Invalid token" });
+    }
 }
 
 module.exports = {
-    checkToken_middlewere
-}
+    checkTokenMiddleware
+};

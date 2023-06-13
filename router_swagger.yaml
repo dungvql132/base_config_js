@@ -1,0 +1,125 @@
+swagger: "2.0"
+info:
+    title: My API
+    version: 1.0.0
+paths:
+    /users/login:
+        post:
+            summary: User login
+            parameters:
+                - in: body
+                  name: data
+                  description: New user info
+                  schema:
+                      type: object
+                      properties:
+                          datas:
+                              type: object
+                              properties:
+                                  username:
+                                      type: string
+                                  password:
+                                      type: string
+            responses:
+                "200":
+                    description: OK
+                    schema:
+                        type: object
+                        properties:
+                            token:
+                                type: string
+                            expires_at:
+                                type: string
+    /users/register:
+        post:
+            summary: User login
+            parameters:
+                - in: body
+                  name: data
+                  description: New user info
+                  schema:
+                      type: object
+                      properties:
+                          datas:
+                              type: object
+                              properties:
+                                  username:
+                                      type: string
+                                  password:
+                                      type: string
+            responses:
+                "200":
+                    description: OK
+                    schema:
+                        type: object
+                        properties:
+                            token:
+                                type: string
+                            expires_at:
+                                type: string
+
+    /api/employees:
+        get:
+            summary: Get all employees
+            security:
+                - Bearer: []
+            responses:
+                "200":
+                    description: OK
+        post:
+            summary: Create a new employee
+            security:
+                - Bearer: []
+            responses:
+                "201":
+                    description: Created
+        put:
+            summary: Update an employee by ID
+            security:
+                - Bearer: []
+            responses:
+                "200":
+                    description: OK
+        delete:
+            summary: Delete an employee by ID
+            security:
+                - Bearer: []
+            responses:
+                "204":
+                    description: No Content
+    /api/customers:
+        get:
+            summary: Get all customers
+            security:
+                - Bearer: []
+            responses:
+                "200":
+                    description: OK
+        post:
+            summary: Create a new customer
+            security:
+                - Bearer: []
+            responses:
+                "201":
+                    description: Created
+        put:
+            summary: Update an customer by ID
+            security:
+                - Bearer: []
+            responses:
+                "200":
+                    description: OK
+        delete:
+            summary: Delete an customer by ID
+            security:
+                - Bearer: []
+            responses:
+                "204":
+                    description: No Content
+
+securityDefinitions:
+    Bearer:
+        type: apiKey
+        name: Authorization
+        in: header
+        description: Bearer token

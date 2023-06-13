@@ -8,3 +8,77 @@ info: Thông tin quan trọng.
 info: Thông tin quan trọng.
 info: Thông tin quan trọng.
 info: Thông tin quan trọng.
+info: Thông tin quan trọng.
+info: dung123 {"timestamp":"2023-06-05T01:59:02.736Z"}
+info: dung123 {"timestamp":"2023-06-05T02:03:56.059Z"}
+info: dung123 {"timestamp":"2023-06-05T02:06:03.426Z"}
+info: dung123 {"timestamp":"2023-06-05T02:10:16.050Z"}
+info: dung123 {"timestamp":"2023-06-05T02:12:31.942Z"}
+info: dung123 {"timestamp":"2023-06-05T02:15:01.776Z"}
+info: dung123 {"timestamp":"2023-06-05T02:16:01.242Z"}
+info: dung123 {"timestamp":"2023-06-05T02:16:40.160Z"}
+info: dung123 {"timestamp":"2023-06-05T02:16:54.940Z"}
+info: dung123 {"timestamp":"2023-06-05T02:17:35.381Z"}
+info: dung123 {"timestamp":"2023-06-05T02:18:00.196Z"}
+info: dung123 {"timestamp":"2023-06-05T02:18:36.641Z"}
+info: dung123 {"timestamp":"2023-06-05T02:18:52.329Z"}
+info: user user1 login successfull with token (eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXIxIiwiaWF0IjoxNjg1OTMyMzgxfQ.qcRMp7YCHwEbloRx-O1cWyB-_w1iagioFql7L_9-PtM) {"timestamp":"2023-06-05T02:33:01.034Z"}
+info: employees executed query: SELECT * FROM employees WHERE 1 = '1' {"timestamp":"2023-06-05T02:33:14.409Z"}
+info: user user4 login successfull with token (eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXI0IiwiaWF0IjoxNjg1OTMyNDQyfQ.G9bCgQvbrDOVJ8YkWstOaCOOAE5t_QSOzHqGJCSaKCs) {"timestamp":"2023-06-05T02:34:02.146Z"}
+info: customers executed query: SELECT * FROM customers WHERE salesrepemployeenumber = '4' {"timestamp":"2023-06-05T02:35:20.188Z"}
+info: user user49 register successfull with token (eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXI0OSIsImlhdCI6MTY4NTkzMjgyMH0.HtNCxtC2arBBjcHECzYzQLHhrUKAEVZfVgPi039O7vI) {"timestamp":"2023-06-05T02:40:20.318Z"}
+info: user user42 register successfull with token (eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXI0MiIsImlhdCI6MTY4NTkzMjg1MX0.snHnzGik1v2Cg34V3c9G48WDnwK478EjoH3teq6kOfM) {"timestamp":"2023-06-05T02:40:51.404Z"}
+info: user user4 login successfull with token (eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXI0IiwiaWF0IjoxNjg1OTM1NDc2fQ.sHHV3xqtcV-oEWEsmqYRK6QMvC_DBQxcAnjwfEooe7c) {"timestamp":"2023-06-05T03:24:36.752Z"}
+info: employees executed query: SELECT * FROM employees WHERE 0 = '1' {"timestamp":"2023-06-05T03:25:20.159Z"}
+info: employees executed query: SELECT * FROM employees WHERE 0 = '1' {"timestamp":"2023-06-05T03:27:15.954Z"}
+info: employees executed query: SELECT * FROM employees WHERE 0 = '1' {"timestamp":"2023-06-05T03:27:34.068Z"}
+info: user user4 login successfull with token (eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXI0IiwiaWF0IjoxNjg1OTM1NzgwfQ.9DbE2VrUBFijE1HFYq7yalJjWU9c86RI44FfHV-Rxc8) {"timestamp":"2023-06-05T03:29:40.680Z"}
+info: user user4 login successfull with token (eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXI0IiwiaWF0IjoxNjg1OTM2MDc5fQ.Hcobn_uQ0lMs1KwG3ritF30NY-vu35RwjSlfWcf07Gk) {"timestamp":"2023-06-05T03:34:39.520Z"}
+info: user user4 login successfull with token (eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXI0IiwiaWF0IjoxNjg1OTM2NzIzfQ.s97dLAzIzgX3ljH1s5yBP0wbNaHgWi84fwoGS5bmcVs) {"timestamp":"2023-06-05T03:45:23.919Z"}
+info: user user4 login successfull with token (eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXI0IiwiaWF0IjoxNjg1OTM2NzYwfQ.KYLdhVUfp4Xw4Xkvm91BZCMQE8QgEsvbFtNfAbO4EX4) {"timestamp":"2023-06-05T03:46:00.522Z"}
+info: user user4 login successfull with token (eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXI0IiwiaWF0IjoxNjg1OTM2ODE2fQ.ksYqrQwoO0MGHBHSs_pbCsi9aSbm8huMv3yDlG5mUW8) {"timestamp":"2023-06-05T03:46:56.014Z"}
+info: user user3 login successfull with token (eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXIzIiwiaWF0IjoxNjg2MDE3MTA2fQ.fKxatgkewCe0EzI1uFDaLwPhh4mq4dxj4uVTY24-xW0) {"timestamp":"2023-06-06T02:05:06.695Z"}
+info: Executed query: 
+    SELECT groups_2.*
+    FROM users AS users_1
+    JOIN groups_users ON groups_users.username_key = users_1.username
+    JOIN groups AS groups_2 ON groups_users.group_id = groups_2.id WHERE users_1.username = 'user3' {"timestamp":"2023-06-06T02:05:11.047Z"}
+info: Executed query: 
+    SELECT rules_2.*
+    FROM groups AS groups_1
+    JOIN groups_rules ON groups_rules.group_id = groups_1.id
+    JOIN rules AS rules_2 ON groups_rules.rule_id = rules_2.id WHERE groups_1.id = '3' {"timestamp":"2023-06-06T02:05:11.065Z"}
+info: Executed query: SELECT employees_2.*
+            FROM users AS users_1
+            JOIN employees AS employees_2 ON 
+            employees_2.employeenumber = users_1.employeenumber WHERE users_1.username = 'user3' {"timestamp":"2023-06-06T02:05:11.075Z"}
+info: Executed query: SELECT offices_2.*
+            FROM employees AS employees_1
+            JOIN offices AS offices_2 ON 
+            offices_2.officecode = employees_1.officecode WHERE employees_1.employeenumber = '3' {"timestamp":"2023-06-06T02:05:11.103Z"}
+info: Executed query: SELECT employees_2.*
+            FROM users AS users_1
+            JOIN employees AS employees_2 ON 
+            employees_2.employeenumber = users_1.employeenumber WHERE users_1.username = 'user3' {"timestamp":"2023-06-06T02:05:11.124Z"}
+info: Executed query: SELECT offices_2.*
+            FROM employees AS employees_1
+            JOIN offices AS offices_2 ON 
+            offices_2.officecode = employees_1.officecode WHERE employees_1.employeenumber = '3' {"timestamp":"2023-06-06T02:05:11.131Z"}
+info: Executed query: SELECT employees_2.*
+            FROM users AS users_1
+            JOIN employees AS employees_2 ON 
+            employees_2.employeenumber = users_1.employeenumber WHERE users_1.username = 'user3' {"timestamp":"2023-06-06T02:05:11.145Z"}
+info: Executed query: SELECT offices_2.*
+            FROM employees AS employees_1
+            JOIN offices AS offices_2 ON 
+            offices_2.officecode = employees_1.officecode WHERE employees_1.employeenumber = '3' {"timestamp":"2023-06-06T02:05:11.153Z"}
+info: Executed query: SELECT employees_2.*
+            FROM users AS users_1
+            JOIN employees AS employees_2 ON 
+            employees_2.employeenumber = users_1.employeenumber WHERE users_1.username = 'user3' {"timestamp":"2023-06-06T02:05:11.166Z"}
+info: customers executed query: SELECT * FROM customers WHERE salesrepemployeenumber in ('1', '2', '3', '4', '5', '12', '13') {"timestamp":"2023-06-06T02:05:11.177Z"}
+info: user testuser login successfull with token (token) {"timestamp":"2023-06-12T09:35:17.011Z"}
+info: user user1 login successfull with token (eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXIxIiwiaWF0IjoxNjg2NTYyODYzfQ.4r2NhTAONNgqnxTtoyplgVmOD_vPuryq3Kj6Q-qjH0c) {"timestamp":"2023-06-12T09:41:03.599Z"}
+info: user user1 login successfull with token (eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXIxIiwiaWF0IjoxNjg2NTYyODYzfQ.4r2NhTAONNgqnxTtoyplgVmOD_vPuryq3Kj6Q-qjH0c) {"timestamp":"2023-06-12T09:41:03.713Z"}
+info: user user1 login successfull with token (eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXIxIiwiaWF0IjoxNjg2NTYyODYzfQ.4r2NhTAONNgqnxTtoyplgVmOD_vPuryq3Kj6Q-qjH0c) {"timestamp":"2023-06-12T09:41:03.814Z"}
+info: user user1 login successfull with token (eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXIxIiwiaWF0IjoxNjg2NTYyODYzfQ.4r2NhTAONNgqnxTtoyplgVmOD_vPuryq3Kj6Q-qjH0c) {"timestamp":"2023-06-12T09:41:03.910Z"}

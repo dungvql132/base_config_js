@@ -1,47 +1,159 @@
-const { add_controller, delete_controller, find_controller, update_controller } = require('@src/controller/common.controller')
-const express = require('express');
-const validateSchema = require('@src/utils/validate');
-const { createValidateMiddlewere } = require('@src/middlewere/validate');
+const express = require("express");
+const validateSchema = require("@src/utils/validate");
+const { createValidateMiddleware } = require("@src/middlewere/validate");
+const { Repository } = require("@src/entity/Repository");
+const { UserEntity } = require("@src/entity");
+const { RepositoryWithRule } = require("@src/entity/RepositoryWithRule");
+const { logger_info } = require("@src/logger");
+
+// Controller function to handle the "find" operation
+async function findController(req, res, next, tableEntity) {
+    try {
+        const userRepository = new Repository(UserEntity);
+        const user = await userRepository.find({
+            where: [["username", "=", req.body.user.username]]
+        });
+        const resultRepository = new RepositoryWithRule(
+            tableEntity,
+            user.datas[0]
+        );
+
+        await resultRepository.setRules();
+        let result;
+        result = await resultRepository.find();
+        logger_info(
+            `${tableEntity.getTableName} executed query: ${result.query}`,
+            req.body.user.username
+        );
+        res.status(200).json(result.rawDatas);
+    } catch (error) {
+        next(error);
+    }
+}
+
+// Controller function to handle the "add" operation
+async function addController(req, res, next, tableEntity) {
+    try {
+        const resultRepository = new Repository(tableEntity);
+        let result;
+        let datas = req.body.datas;
+        if (datas) {
+            result = await resultRepository.add(...datas);
+        }
+        logger_info(
+            `${tableEntity.getTableName} executed query: ${result.query}`,
+            req.body.user.username
+        );
+        res.status(200).json(result);
+    } catch (error) {
+        next(error);
+    }
+}
+
+// Controller function to handle the "update" operation
+async function updateController(req, res, next, tableEntity) {
+    try {
+        const resultRepository = new Repository(tableEntity);
+        let result;
+        let datas = req.body.datas;
+        if (datas) {
+            result = await resultRepository.update(
+                datas.option,
+                datas.newValue
+            );
+        }
+        logger_info(
+            `${tableEntity.getTableName} executed query: ${result.query}`,
+            req.body.user.username
+        );
+        res.status(200).json(result);
+    } catch (error) {
+        next(error);
+    }
+}
+
+// Controller function to handle the "delete" operation
+async function deleteController(req, res, next, tableEntity) {
+    try {
+        const resultRepository = new Repository(tableEntity);
+        let result;
+        let datas = req.body.datas;
+        if (datas) {
+            result = await resultRepository.delete(datas.option);
+        }
+        logger_info(
+            `${tableEntity.getTableName} executed query: ${result.query}`,
+            req.body.user.username
+        );
+        res.status(200).json(result);
+    } catch (error) {
+        next(error);
+    }
+}
 
 class ControllerFactory {
     constructor(url, tableEntity) {
-        this.find_controller_factory = function (req, res, next) {
-            find_controller(req, res, next, tableEntity)
-        }
-        this.add_controller_factory = function (req, res, next) {
-            add_controller(req, res, next, tableEntity)
-        }
-        this.update_controller_factory = function (req, res, next) {
-            update_controller(req, res, next, tableEntity)
-        }
-        this.delete_controller_factory = function (req, res, next) {
-            delete_controller(req, res, next, tableEntity)
-        }
+        this.findControllerFactory = function (req, res, next) {
+            findController(req, res, next, tableEntity);
+        };
+        this.addControllerFactory = function (req, res, next) {
+            addController(req, res, next, tableEntity);
+        };
+        this.updateControllerFactory = function (req, res, next) {
+            updateController(req, res, next, tableEntity);
+        };
+        this.deleteControllerFactory = function (req, res, next) {
+            deleteController(req, res, next, tableEntity);
+        };
         this.app = express();
 
-        if(validateSchema[tableEntity.getTableName]){
-            if(validateSchema[tableEntity.getTableName]['get']){
-                this.app.get(`${url}/`,createValidateMiddlewere(validateSchema[tableEntity.getTableName]['get']))
+        if (validateSchema[tableEntity.getTableName]) {
+            if (validateSchema[tableEntity.getTableName]["get"]) {
+                this.app.get(
+                    `${url}/`,
+                    createValidateMiddleware(
+                        validateSchema[tableEntity.getTableName]["get"]
+                    )
+                );
             }
-            if(validateSchema[tableEntity.getTableName]['post']){
-                this.app.post(`${url}/`,createValidateMiddlewere(validateSchema[tableEntity.getTableName]['post']))
+            if (validateSchema[tableEntity.getTableName]["post"]) {
+                this.app.post(
+                    `${url}/`,
+                    createValidateMiddleware(
+                        validateSchema[tableEntity.getTableName]["post"]
+                    )
+                );
             }
-            if(validateSchema[tableEntity.getTableName]['put']){
-                this.app.put(`${url}/`,createValidateMiddlewere(validateSchema[tableEntity.getTableName]['put']))
+            if (validateSchema[tableEntity.getTableName]["put"]) {
+                this.app.put(
+                    `${url}/`,
+                    createValidateMiddleware(
+                        validateSchema[tableEntity.getTableName]["put"]
+                    )
+                );
             }
-            if(validateSchema[tableEntity.getTableName]['delete']){
-                this.app.delete(`${url}/`,createValidateMiddlewere(validateSchema[tableEntity.getTableName]['delete']))
+            if (validateSchema[tableEntity.getTableName]["delete"]) {
+                this.app.delete(
+                    `${url}/`,
+                    createValidateMiddleware(
+                        validateSchema[tableEntity.getTableName]["delete"]
+                    )
+                );
             }
         }
 
         this.app
-            .get(`${url}/`, this.find_controller_factory)
-            .post(`${url}/`, this.add_controller_factory)
-            .put(`${url}/`, this.update_controller_factory)
-            .delete(`${url}/`, this.delete_controller_factory);
+            .get(`${url}/`, this.findControllerFactory)
+            .post(`${url}/`, this.addControllerFactory)
+            .put(`${url}/`, this.updateControllerFactory)
+            .delete(`${url}/`, this.deleteControllerFactory);
     }
 }
 
 module.exports = {
-    ControllerFactory
-}
+    ControllerFactory,
+    findController,
+    addController,
+    updateController,
+    deleteController
+};

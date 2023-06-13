@@ -1,78 +1,115 @@
-// change from object to a string
-// change it to use from object to SQL VALUES
-function fromObjToStringValues(object, keys) {
+// Convert an object to a string of values for SQL VALUES clause
+/**
+ *
+ * @param {object} object
+ * @param {Array} keys
+ * @returns
+ */
+function convertObjectToStringValues(object, keys) {
     if (!keys) {
-        keys = Object.keys(object)
+        keys = Object.keys(object);
     }
 
-    let rs = []
-    keys.forEach(key => {
-        if (`${object[key]}`.toLocaleLowerCase() != 'null') rs.push(`'${object[key]}'`)
-        else rs.push(`${object[key]}`)
-    });
-    return rs.join(', ')
-}
-// ( {x:1,y:2}, ['x','y'] )=> ('1','2')
-
-// change from array to a string
-// change it to use from array to use IN in SQL WHERE
-function fromArrayToArraySQL(arr) {
-    const arrString = arr.map((value) => {
-        if (`${value}`.toLocaleLowerCase() == 'null') {
-            return value
+    let values = keys.map(key => {
+        const value = object[key];
+        if (`${value}`.toLowerCase() !== "null") {
+            return `'${value}'`;
+        } else {
+            return `${value}`;
         }
-        return `'${value}'`
-    })
+    });
 
-    return `(${arrString.join(', ')})`
+    return `${values.join(", ")}`;
 }
 
-// [1,2,3] => ('1','2','3')
+/**
+ *
+ * @param {Array} arr
+ * @returns {string}
+ */
+// Convert an array to a string of values for SQL WHERE clause using IN
+function convertArrayToSQLValues(arr) {
+    const values = arr.map(value => {
+        if (`${value}`.toLowerCase() === "null") {
+            return value;
+        } else {
+            return `'${value}'`;
+        }
+    });
 
-// change from object to a string
-// change it to use from object to SQL SET
-function fromObjToStringKeysValues(object, keys) {
+    return `(${values.join(", ")})`;
+}
+
+/**
+ *
+ * @param {object} object
+ * @param {Array} keys
+ * @returns
+ */
+// Convert an object to a string of keys and values for SQL SET clause
+function convertObjectToStringKeysValues(object, keys) {
     if (!keys) {
-        keys = Object.keys(object)
+        keys = Object.keys(object);
     }
 
-    let rs = []
-    keys.forEach(key => {
-        if (`${object[key]}`.toLocaleLowerCase() == 'null') {
-            return rs.push(`${key} = ${object[key]}`)
-        }else{
-            rs.push(`${key} = '${object[key]}'`)
+    let keyValuePairs = keys.map(key => {
+        const value = object[key];
+        if (`${value}`.toLowerCase() === "null") {
+            return `${key} = ${value}`;
+        } else {
+            return `${key} = '${value}'`;
         }
     });
-    return rs.join(', ')
-}
-// ( {x:1,y:2}, ['x','y'] )=> (x = '1',y = '2')
 
-// result is string, use in ON CONDITION
-// this use for a where have multi table
-function toJoinConditionON(tableName,commonTableName,objTable1_keys,colTableName_keys){
-    let rs = objTable1_keys.map((value,index)=>{
-        return `${tableName}.${objTable1_keys[index]} = ${commonTableName}.${colTableName_keys[index]}`
-    })
-
-    return rs.join(' AND ')
+    return keyValuePairs.join(", ");
 }
 
-// result is string, use in WHERE CONDITION
-// this use for a where have multi table
-function toJoinConditionWhere(tableName,objTable,objTable1_keys){
-    let rs =  objTable1_keys.map((value,index)=>{
-        if(typeof objTable[value] === 'object')    return `${tableName}.${value} = '${objTable[value].value}'`
-        return `${tableName}.${value} = '${objTable[value]}'`
-    })
+// Generate a string of join conditions for ON clause in SQL
+/**
+ *
+ * @param {string} tableName
+ * @param {string} commonTableName
+ * @param {Array} objTable1_keys
+ * @param {Array} colTableName_keys
+ * @returns
+ */
+function generateJoinConditionON(
+    tableName,
+    commonTableName,
+    objTable1_keys,
+    colTableName_keys
+) {
+    let conditions = objTable1_keys.map((key, index) => {
+        return `${tableName}.${objTable1_keys[index]} = ${commonTableName}.${colTableName_keys[index]}`;
+    });
 
-    return rs.join(' AND ')
+    return conditions.join(" AND ");
+}
+
+// Generate a string of join conditions for WHERE clause in SQL
+/**
+ *
+ * @param {string} tableName
+ * @param {object} objTable
+ * @param {Array} objTable1_keys
+ * @returns
+ */
+function generateJoinConditionWhere(tableName, objTable, objTable1_keys) {
+    let conditions = objTable1_keys.map((key, index) => {
+        if (typeof objTable[key] === "object") {
+            return `${tableName}.${key} = '${objTable[key].value}'`;
+        } else {
+            return `${tableName}.${key} = '${objTable[key]}'`;
+        }
+    });
+
+    return conditions.join(" AND ");
 }
 
 module.exports = {
-    fromObjToStringValues,
-    fromObjToStringKeysValues,
-    fromArrayToArraySQL,
-    toJoinConditionON,
-    toJoinConditionWhere
-}
+    convertObjectToStringValues,
+    convertObjectToStringKeysValues,
+    convertArrayToSQLValues,
+    generateJoinConditionON,
+    generateJoinConditionWhere
+};

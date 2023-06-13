@@ -9,13 +9,15 @@
     "lint": "npx eslint src --ext .js",
     "lint:fix": "npx eslint src --ext .js --fix",
     "prettierrc": "npx prettier --write \"src/**/*.js\"",
-    "migrate": "node src/database/migrate.js"
+    "migrate": "node src/database/migrate.js",
+    "test:assignment": "nyc --reporter=lcov --reporter=text mocha --exit"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.1.0",
     "body-parser": "^1.20.2",
+    "chai-json-schema": "^1.5.1",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
@@ -23,7 +25,10 @@
     "joi": "^17.9.2",
     "jsonwebtoken": "^9.0.0",
     "module-alias": "^2.2.2",
+    "mongodb": "^5.6.0",
+    "mongoose": "^7.2.2",
     "pg": "^8.11.0",
+    "sinon": "^15.1.0",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^4.6.3",
     "winston": "^3.9.0",
@@ -33,9 +38,15 @@
     "@src": "src"
   },
   "devDependencies": {
+    "chai": "^4.3.7",
+    "chai-http": "^4.3.0",
+    "chalk": "^5.2.0",
+    "concurrently": "^8.1.0",
     "eslint": "^8.41.0",
     "eslint-config-google": "^0.14.0",
+    "mocha": "^10.2.0",
     "nodemon": "^2.0.22",
+    "nyc": "^15.1.0",
     "prettier": "^2.8.8"
   }
 }

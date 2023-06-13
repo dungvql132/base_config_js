@@ -1,108 +1,144 @@
-const { toJoinConditionWhere } = require("@src/utils/handle.array");
+const { generateJoinConditionWhere } = require("@src/utils/handle.array");
 const { getQueryPromise } = require("@src/database/connect");
+const { logger_info } = require("@src/logger");
 
+/**
+ * Retrieve records in a many-to-one relationship
+ * @param {Repository} Repository - The repository instance
+ * @returns {Array} - Array of retrieved records
+ */
 async function getManyToOne(Repository) {
-    // xử lý việc self join
-    const tableNameFrom = this.parent.tableName
-    const tableNameTo = this.tableNameTo
+    // Handle self join
+    const tableNameFrom = this.parent.tableName;
+    const tableNameTo = this.tableNameTo;
+    const classResult = this.tableTo;
 
-    const classResult = this.tableTo
+    let tableNameFromAlias = tableNameFrom + "_1";
+    let tableNameToAlias = tableNameTo + "_2";
 
-    let tableNameFromAlias = tableNameFrom + '_1'
-    let tableNameToAlias = tableNameTo + '_2'
-
-    let joinFromAlias = `${tableNameFrom} AS ${tableNameFromAlias}`
-    let joinToAlias = `${tableNameTo} AS ${tableNameToAlias}`
+    let joinFromAlias = `${tableNameFrom} AS ${tableNameFromAlias}`;
+    let joinToAlias = `${tableNameTo} AS ${tableNameToAlias}`;
     // ------------------------------------
 
     let query = `SELECT ${tableNameToAlias}.*
             FROM ${joinFromAlias}
             JOIN ${joinToAlias} ON 
-            ${tableNameToAlias}.${this.colTableTo} = ${tableNameFromAlias}.${this.colTableFrom}`
+            ${tableNameToAlias}.${this.colTableTo} = ${tableNameFromAlias}.${this.colTableFrom}`;
 
-    // thêm điều kiện where
-    query += ` where ${toJoinConditionWhere(tableNameFromAlias, this.parent, this.parent.primanys)}`;
-    console.log("many2one query: ",query);
+    // Add WHERE condition
+    query += ` WHERE ${generateJoinConditionWhere(
+        tableNameFromAlias,
+        this.parent,
+        this.parent.primanys
+    )}`;
+    console.log("many2one query: ", query);
+    logger_info(`Executed query: ${query}`);
 
-    let data = await getQueryPromise(query)
-    let rs = new classResult()
-    Repository.setEntity(rs,data.rows[0])
-    this.valueORM = [rs]
+    let data = await getQueryPromise(query);
+    let rs = new classResult();
+    Repository.setEntity(rs, data.rows[0]);
+    this.valueORM = [rs];
     return [rs];
 }
 
+/**
+ * Retrieve records in a many-to-many relationship
+ * @param {Repository} Repository - The repository instance
+ * @returns {Array} - Array of retrieved records
+ */
 async function getManyToMany(Repository) {
-    // xử lý việc self join
-    const { commonTableName, colTableFrom, colTableTo, colConnectTableFrom, colConnectTableTo } = this
+    // Handle self join
+    const {
+        commonTableName,
+        colTableFrom,
+        colTableTo,
+        colConnectTableFrom,
+        colConnectTableTo
+    } = this;
 
-    const tableNameFrom = this.parent.tableName
-    const tableNameTo = this.tableNameTo
-    const classResult = this.tableTo
+    const tableNameFrom = this.parent.tableName;
+    const tableNameTo = this.tableNameTo;
+    const classResult = this.tableTo;
 
-    let tableNameFromAlias = tableNameFrom + '_1'
-    let tableNameToAlias = tableNameTo + '_2'
+    let tableNameFromAlias = tableNameFrom + "_1";
+    let tableNameToAlias = tableNameTo + "_2";
 
-    let joinFromAlias = `${tableNameFrom} AS ${tableNameFromAlias}`
-    let joinToAlias = `${tableNameTo} AS ${tableNameToAlias}`
+    let joinFromAlias = `${tableNameFrom} AS ${tableNameFromAlias}`;
+    let joinToAlias = `${tableNameTo} AS ${tableNameToAlias}`;
 
-    // create query
+    // Create query
     let query = `
     SELECT ${tableNameToAlias}.*
     FROM ${joinFromAlias}
     JOIN ${commonTableName} ON ${commonTableName}.${colTableFrom} = ${tableNameFromAlias}.${colConnectTableFrom}
-    JOIN ${joinToAlias} ON ${commonTableName}.${colTableTo} = ${tableNameToAlias}.${colConnectTableTo}`
-    // add query to correct record
-    query += ` where ${toJoinConditionWhere(tableNameFromAlias, this.parent, this.parent.primanys)}`;
+    JOIN ${joinToAlias} ON ${commonTableName}.${colTableTo} = ${tableNameToAlias}.${colConnectTableTo}`;
+    // Add WHERE condition
+    query += ` WHERE ${generateJoinConditionWhere(
+        tableNameFromAlias,
+        this.parent,
+        this.parent.primanys
+    )}`;
 
-    console.log("query ManytoMany: ",query);
-    
-    let data = await getQueryPromise(query)
-    let rsRaw = []
-    let rsORM = []
+    console.log("query ManyToMany: ", query);
+
+    let data = await getQueryPromise(query);
+    let rsRaw = [];
+    let rsORM = [];
     for (let i = 0; i < data.rows.length; i++) {
-        rsORM.push(new classResult())
+        rsORM.push(new classResult());
         // rs[i].setData(data.rows[0])
-        Repository.setEntity(rsORM[i],data.rows[i])
-        rsRaw.push(data.rows[i][colConnectTableTo])
+        Repository.setEntity(rsORM[i], data.rows[i]);
+        rsRaw.push(data.rows[i][colConnectTableTo]);
     }
-    this.valueORM = rsORM
-    this.value = rsRaw
+    this.valueORM = rsORM;
+    this.value = rsRaw;
+    logger_info(`Executed query: ${query}`);
     return rsORM;
 }
 
+/**
+ * Retrieve records in a one-to-many relationship
+ * @param {Repository} Repository - The repository instance
+ * @returns {Array} - Array of retrieved records
+ */
 async function getOneToMany(Repository) {
-    // xử lý việc self join
-    const { colTableFrom, colTableTo } = this
+    // Handle self join
+    const { colTableFrom, colTableTo } = this;
 
-    const tableNameFrom = this.parent.tableName
-    const tableNameTo = this.tableNameTo
-    const classResult = this.tableTo
+    const tableNameFrom = this.parent.tableName;
+    const tableNameTo = this.tableNameTo;
+    const classResult = this.tableTo;
 
-    let tableNameFromAlias = tableNameFrom + '_1'
-    let tableNameToAlias = tableNameTo + '_2'
+    let tableNameFromAlias = tableNameFrom + "_1";
+    let tableNameToAlias = tableNameTo + "_2";
 
-    let joinFromAlias = `${tableNameFrom} AS ${tableNameFromAlias}`
-    let joinToAlias = `${tableNameTo} AS ${tableNameToAlias}`
+    let joinFromAlias = `${tableNameFrom} AS ${tableNameFromAlias}`;
+    let joinToAlias = `${tableNameTo} AS ${tableNameToAlias}`;
 
-    // create query
+    // Create query
     let query = `
     SELECT ${tableNameToAlias}.*
     FROM ${joinFromAlias}
-    JOIN ${joinToAlias} ON ${tableNameFromAlias}.${colTableFrom} = ${tableNameToAlias}.${colTableTo}`
-    // add query to correct record
-    query += ` where ${toJoinConditionWhere(tableNameFromAlias, this.parent, this.parent.primanys)}`;
-    
-    let data = await getQueryPromise(query)
-    let rsRaw = []
-    let rsORM = []
+    JOIN ${joinToAlias} ON ${tableNameFromAlias}.${colTableFrom} = ${tableNameToAlias}.${colTableTo}`;
+    // Add WHERE condition
+    query += ` WHERE ${generateJoinConditionWhere(
+        tableNameFromAlias,
+        this.parent,
+        this.parent.primanys
+    )}`;
+
+    let data = await getQueryPromise(query);
+    let rsRaw = [];
+    let rsORM = [];
     for (let i = 0; i < data.rows.length; i++) {
-        rsORM.push(new classResult())
+        rsORM.push(new classResult());
         // rs[i].setData(data.rows[0])
-        Repository.setEntity(rsORM[i],data.rows[i])
-        rsRaw.push(data.rows[i][colConnectTableTo])
+        Repository.setEntity(rsORM[i], data.rows[i]);
+        rsRaw.push(data.rows[i][colConnectTableTo]);
     }
-    this.valueORM = rsORM
-    this.value = rsRaw
+    this.valueORM = rsORM;
+    this.value = rsRaw;
+    logger_info(`Executed query: ${query}`);
     return rsORM;
 }
 
@@ -110,4 +146,4 @@ module.exports = {
     getManyToOne,
     getManyToMany,
     getOneToMany
-}
+};
