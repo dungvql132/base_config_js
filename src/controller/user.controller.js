@@ -112,18 +112,6 @@ async function userLoginController(req, res, next) {
     }
 }
 
-async function userChangePasswordController(req, res, next) {
-    try {
-        // Implementation for changing user password goes here
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({
-            success: false,
-            message: "Internal server error"
-        });
-    }
-}
-
 module.exports = {
     userRegisterController,
     userLoginController

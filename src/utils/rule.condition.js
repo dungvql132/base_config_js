@@ -8,13 +8,14 @@ const { convertArrayToSQLValues } = require("./handle.array");
  * @returns {string} - The merged SQL WHERE condition
  */
 function mergeWhereConditions(command_1, command_2, condition) {
-    if (command_2 === undefined) {
-        return command_1;
-    }
-    const rs = `(${command_1} ${
+    let result = `(${command_1} ${
         condition === "|" ? "OR" : "AND"
     } ${command_2})`;
-    return rs;
+    if (command_2 === undefined) {
+        result = command_1;
+    }
+    console.log("the result: ", result);
+    return result;
 }
 
 /**
@@ -24,13 +25,14 @@ function mergeWhereConditions(command_1, command_2, condition) {
  */
 function arrayToWhereCondition(arr) {
     const [field, condition, value] = arr;
+    let result = `${field} ${condition} ${value}`;
     if (`${value}`.toLowerCase() !== "null") {
         if (condition.toLowerCase() === "in") {
-            return `${field} ${condition} ${convertArrayToSQLValues(value)}`;
+            result = `${field} ${condition} ${convertArrayToSQLValues(value)}`;
         }
-        return `${field} ${condition} '${value}'`;
+        result = `${field} ${condition} '${value}'`;
     }
-    return `${field} ${condition} ${value}`;
+    return result;
 }
 
 /**
@@ -41,7 +43,7 @@ function arrayToWhereCondition(arr) {
 function convertToWhereCondition(arr) {
     const signs = [];
     const commands = [];
-    const rs = [];
+    const result = [];
 
     for (let i = arr.length - 1; i >= 0; i--) {
         if (typeof arr[i] === "object") {
@@ -54,29 +56,29 @@ function convertToWhereCondition(arr) {
             const command_1 = commands.pop();
             const command_2 = commands.pop();
             const sign = signs.pop();
-            rs.push(mergeWhereConditions(command_1, command_2, sign));
+            result.push(mergeWhereConditions(command_1, command_2, sign));
         } else if (commands.length >= 1 && signs.length >= 1) {
             const command_1 = commands.pop();
-            const command_2 = rs.pop();
+            const command_2 = result.pop();
             const sign = signs.pop();
-            rs.push(mergeWhereConditions(command_1, command_2, sign));
-        } else if (rs.length >= 2 && signs.length >= 1) {
-            const command_1 = rs.pop();
-            const command_2 = rs.pop();
+            result.push(mergeWhereConditions(command_1, command_2, sign));
+        } else if (result.length >= 2 && signs.length >= 1) {
+            const command_1 = result.pop();
+            const command_2 = result.pop();
             const sign = signs.pop();
-            rs.push(mergeWhereConditions(command_1, command_2, sign));
+            result.push(mergeWhereConditions(command_1, command_2, sign));
         }
     }
 
-    if (rs.length === 0 && commands.length === 1) {
+    if (result.length === 0 && commands.length === 1) {
         return commands[0];
     }
 
-    if (signs.length !== 0 || commands.length !== 0 || rs.length !== 1) {
+    if (signs.length !== 0 || commands.length !== 0 || result.length !== 1) {
         return undefined;
     }
 
-    return rs[0];
+    return `${result[0]}`;
 }
 
 module.exports = {

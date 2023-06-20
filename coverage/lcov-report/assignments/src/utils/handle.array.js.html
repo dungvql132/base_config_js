@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">46.66% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>14/30</span>
+                <span class='fraction'>0/30</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">50% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>6/12</span>
+                <span class='fraction'>0/12</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">40% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>4/10</span>
+                <span class='fraction'>0/10</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">46.66% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>14/30</span>
+                <span class='fraction'>0/30</span>
             </div>
         
             
@@ -186,38 +186,38 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -286,7 +286,7 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -300,21 +300,21 @@
  * @param {Array} keys
  * @returns
  */
-function convertObjectToStringValues(object, keys) {
-    if (!keys) {
-        keys = Object.keys(object);
+function <span class="fstat-no" title="function not covered" >convertObjectToStringValues(</span>object, keys) {
+<span class="cstat-no" title="statement not covered" >    if (!keys) {</span>
+<span class="cstat-no" title="statement not covered" >        keys = Object.keys(object);</span>
     }
 &nbsp;
-    let values = keys.map(key =&gt; {
-        const value = object[key];
-        if (`${value}`.toLowerCase() !== "null") {
-            return `'${value}'`;
+    let values = <span class="cstat-no" title="statement not covered" >keys.map(<span class="fstat-no" title="function not covered" >ke</span>y =&gt; {</span>
+        const value = <span class="cstat-no" title="statement not covered" >object[key];</span>
+<span class="cstat-no" title="statement not covered" >        if (`${value}`.toLowerCase() !== "null") {</span>
+<span class="cstat-no" title="statement not covered" >            return `'${value}'`;</span>
         } else {
-            return `${value}`;
+<span class="cstat-no" title="statement not covered" >            return `${value}`;</span>
         }
     });
 &nbsp;
-    return `${values.join(", ")}`;
+<span class="cstat-no" title="statement not covered" >    return `${values.join(", ")}`;</span>
 }
 &nbsp;
 /**
@@ -323,16 +323,16 @@ function convertObjectToStringValues(object, keys) {
  * @returns {string}
  */
 // Convert an array to a string of values for SQL WHERE clause using IN
-function convertArrayToSQLValues(arr) {
-    const values = arr.map(value =&gt; {
-        if (`${value}`.toLowerCase() === "null") {
-            return value;
+function <span class="fstat-no" title="function not covered" >convertArrayToSQLValues(</span>arr) {
+    const values = <span class="cstat-no" title="statement not covered" >arr.map(<span class="fstat-no" title="function not covered" >va</span>lue =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >        if (`${value}`.toLowerCase() === "null") {</span>
+<span class="cstat-no" title="statement not covered" >            return value;</span>
         } else {
-            return `'${value}'`;
+<span class="cstat-no" title="statement not covered" >            return `'${value}'`;</span>
         }
     });
 &nbsp;
-    return `(${values.join(", ")})`;
+<span class="cstat-no" title="statement not covered" >    return `(${values.join(", ")})`;</span>
 }
 &nbsp;
 /**
@@ -401,7 +401,7 @@ function <span class="fstat-no" title="function not covered" >generateJoinCondit
 <span class="cstat-no" title="statement not covered" >    return conditions.join(" AND ");</span>
 }
 &nbsp;
-module.exports = {
+<span class="cstat-no" title="statement not covered" >module.exports = {</span>
     convertObjectToStringValues,
     convertObjectToStringKeysValues,
     convertArrayToSQLValues,
@@ -415,7 +415,7 @@ module.exports = {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-06-12T09:41:04.106Z
+                at 2023-06-16T03:32:32.288Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

@@ -8,7 +8,7 @@
     "dev": "nodemon index.js",
     "lint": "npx eslint src --ext .js",
     "lint:fix": "npx eslint src --ext .js --fix",
-    "prettierrc": "npx prettier --write \"src/**/*.js\"",
+    "pretty": "npx prettier --write \"src/**/*.js\"",
     "migrate": "node src/database/migrate.js",
     "test:assignment": "nyc --reporter=lcov --reporter=text mocha --exit"
   },
@@ -44,6 +44,7 @@
     "concurrently": "^8.1.0",
     "eslint": "^8.41.0",
     "eslint-config-google": "^0.14.0",
+    "jest": "^29.5.0",
     "mocha": "^10.2.0",
     "nodemon": "^2.0.22",
     "nyc": "^15.1.0",

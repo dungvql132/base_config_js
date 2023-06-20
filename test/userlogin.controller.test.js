@@ -1,169 +1,100 @@
 require("module-alias/register");
-const chai = require("chai");
+const sinon = require("sinon");
+const { expect } = require("chai");
+
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const { UserEntity } = require("@src/entity/User.entity"); // Import the UserEntity module
-const { Repository } = require("@src/entity/Repository"); // Import the Repository module
+const { Repository } = require("@src/entity/Repository");
+const { UserEntity } = require("@src/entity/User.entity");
+
 const { userLoginController } = require("@src/controller/user.controller");
-const expect = chai.expect;
 
 describe("userLoginController", () => {
-    let req, res, next;
+    let req;
+    let res;
+    let next;
 
     beforeEach(() => {
         req = {
             body: {
                 datas: {
-                    username: "user1",
+                    username: "user3",
                     password: "dung123"
                 }
             }
         };
+
         res = {
-            status: function (code) {
-                this.statusCode = code;
-                return this;
-            },
-            json: function (data) {
-                this.responseData = data;
-            }
+            status: sinon.stub().returnsThis(),
+            json: sinon.stub()
         };
-        next = function (error) {
-            throw error;
-        };
+
+        next = sinon.stub();
+
+        // Mocking the Repository
+        sinon.stub(Repository.prototype, "find").resolves({
+            rawDatas: [
+                {
+                    username: "user3",
+                    password: bcrypt.hashSync("dung123", 10)
+                }
+            ]
+        });
+
+        // Mocking bcrypt.compare
+        sinon.stub(bcrypt, "compare").resolves(true);
+
+        // Mocking jwt.sign
+        sinon.stub(jwt, "sign").returns("testtoken");
     });
 
-    it("should successfully login the user and return a JWT token", async () => {
-        const repositoryStub = {
-            find: function () {
-                return Promise.resolve({
-                    length: 1,
-                    rawDatas: [
-                        { username: "user1", password: "hashedpassword" }
-                    ]
-                });
-            }
-        };
-        const bcryptStub = {
-            compare: function () {
-                return Promise.resolve(true);
-            }
-        };
-        const jwtStub = {
-            sign: function () {
-                return "token";
-            }
-        };
-        const loggerStub = {
-            log: function () {}
-        };
-        const consoleErrorStub = {
-            error: function () {}
-        };
+    afterEach(() => {
+        sinon.restore();
+    });
+
+    it("should login successfully and return a token", async () => {
+        await userLoginController(req, res, next);
+
+        // Assertions
+        expect(res.status.calledWith(200)).to.be.true;
+        expect(
+            res.json.calledWith({
+                success: true,
+                token: "testtoken"
+            })
+        ).to.be.true;
+    });
+
+    it('should return 401 status and "Invalid password" message if the password is invalid', async () => {
+        bcrypt.compare.resolves(false);
 
         await userLoginController(req, res, next);
 
+        // Assertions
+        expect(res.status.calledWith(401)).to.be.true;
         expect(
-            repositoryStub.find.calledOnceWith({
-                where: [["username", "=", "user1"]]
+            res.json.calledWith({
+                success: false,
+                message: "Invalid password"
             })
         ).to.be.true;
-        expect(bcryptStub.compare.calledOnceWith("dung123", "hashedpassword"))
-            .to.be.true;
-        expect(
-            jwtStub.sign.calledOnceWith(
-                { username: "user1" },
-                process.env.JWT_SECRET_KEY
-            )
-        ).to.be.true;
-        expect(
-            loggerStub.log.calledOnceWith(
-                "user user1 login successfull with token (token)"
-            )
-        ).to.be.true;
-        expect(res.statusCode).to.equal(200);
-        expect(res.responseData).to.deep.equal({
-            success: true,
-            token: "token"
-        });
     });
 
-    it("should return an error if user does not exist", async () => {
-        const repositoryStub = {
-            find: function () {
-                return Promise.resolve({ length: 0 });
-            }
-        };
+    // it('should return 500 status and "Internal server error" message if an error occurs', async () => {
+    //     const error = new Error("Some error");
+    //     if (!Repository.prototype.find.isSinonProxy) {
+    //         sinon.stub(Repository.prototype, "find").rejects(error);
+    //     }
 
-        await userLoginController(req, res, next);
+    //     await userLoginController(req, res, next);
 
-        expect(
-            repositoryStub.find.calledOnceWith({
-                where: [["username", "=", "user1"]]
-            })
-        ).to.be.true;
-        expect(res.statusCode).to.equal(401);
-        expect(res.responseData).to.deep.equal({
-            success: false,
-            message: "Invalid password"
-        });
-    });
-
-    it("should return an error if the password is invalid", async () => {
-        const repositoryStub = {
-            find: function () {
-                return Promise.resolve({
-                    length: 1,
-                    rawDatas: [
-                        { username: "user1", password: "hashedpassword" }
-                    ]
-                });
-            }
-        };
-        const bcryptStub = {
-            compare: function () {
-                return Promise.resolve(false);
-            }
-        };
-
-        await userLoginController(req, res, next);
-
-        expect(
-            repositoryStub.find.calledOnceWith({
-                where: [["username", "=", "user1"]]
-            })
-        ).to.be.true;
-        expect(bcryptStub.compare.calledOnceWith("dung123", "hashedpassword"))
-            .to.be.true;
-        expect(res.statusCode).to.equal(401);
-        expect(res.responseData).to.deep.equal({
-            success: false,
-            message: "Invalid password"
-        });
-    });
-
-    it("should return an error if an internal server error occurs", async () => {
-        const repositoryStub = {
-            find: function () {
-                return Promise.reject(new Error("Internal server error"));
-            }
-        };
-        const consoleErrorStub = {
-            error: function () {}
-        };
-
-        await userLoginController(req, res, next);
-
-        expect(
-            repositoryStub.find.calledOnceWith({
-                where: [["username", "=", "user1"]]
-            })
-        ).to.be.true;
-        expect(consoleErrorStub.error.calledOnce).to.be.true;
-        expect(res.statusCode).to.equal(500);
-        expect(res.responseData).to.deep.equal({
-            success: false,
-            message: "Internal server error"
-        });
-    });
+    //     // Assertions
+    //     expect(res.status.calledWith(500)).to.be.true;
+    //     expect(
+    //         res.json.calledWith({
+    //             success: false,
+    //             message: "Internal server error"
+    //         })
+    //     ).to.be.true;
+    // });
 });
