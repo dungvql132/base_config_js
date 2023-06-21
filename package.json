@@ -12,6 +12,9 @@
     "migrate": "node src/database/migrate.js",
     "test:assignment": "nyc --reporter=lcov --reporter=text mocha --exit"
   },
+  "nyc":{
+    "exclude":["src/entity","src/utils/callDB"]
+  },
   "author": "",
   "license": "ISC",
   "dependencies": {

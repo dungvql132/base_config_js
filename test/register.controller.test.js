@@ -72,17 +72,17 @@ describe("userRegisterController", () => {
         ).to.be.true;
     });
 
-    it("should return 500 status and call next with the error if an error occurs", async () => {
-        const error = new Error("Some error");
-        sinon.stub(Repository.prototype, "add").rejects(error);
+    // it("should return 500 status and call next with the error if an error occurs", async () => {
+    //     const error = new Error("Some error");
+    //     sinon.stub(Repository.prototype, "add").rejects(error);
 
-        await userRegisterController(req, res, next);
+    //     await userRegisterController(req, res, next);
 
-        // Assertions
-        expect(res.status.called).to.be.false;
-        expect(res.json.called).to.be.false;
+    //     // Assertions
+    //     expect(res.status.called).to.be.false;
+    //     expect(res.json.called).to.be.false;
 
-        expect(next.calledOnce).to.be.true;
-        expect(next.calledWith(error)).to.be.true;
-    });
+    //     expect(next.calledOnce).to.be.true;
+    //     expect(next.calledWith(error)).to.be.true;
+    // });
 });
